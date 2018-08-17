@@ -1,6 +1,7 @@
 [package]
 name = "hrt"
 version = "0.1.0"
-authors = ["Beatrice Klebe <bklebe@users.noreply.github.com>"]
+authors = ["Beatrix Klebe <bklebe@users.noreply.github.com>"]
 
 [dependencies]
+chrono = "0.4"
