@@ -2,6 +2,7 @@ extern crate chrono;
 extern crate chrono_tz;
 extern crate timeago;
 extern crate fs_extra;
+extern crate dirs;
 
 use std::fmt;
 use chrono::prelude::*;
