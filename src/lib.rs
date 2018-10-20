@@ -1,14 +1,16 @@
 extern crate chrono;
 extern crate chrono_tz;
-extern crate timeago;
-extern crate fs_extra;
 extern crate dirs;
+extern crate fs_extra;
+extern crate timeago;
 
-use std::fmt;
 use chrono::prelude::*;
-use fs_extra::file;
-use std::path::Path;
 use fs_extra::dir;
+use fs_extra::file;
+use std::fmt;
+use std::fs::DirBuilder;
+use std::path::PathBuf;
+use std::process;
 
 pub struct Hrt {
     pub start: DateTime<Utc>,
@@ -18,10 +20,21 @@ pub struct Hrt {
 
 impl Hrt {
     pub fn new(args: Vec<String>) -> Result<Hrt, &'static str> {
-        let stored_file = Path::new("/Users/bea/.hrt/hrt.txt");
+        let config_dir = dirs::home_dir()
+            .unwrap_or_else(|| {
+                eprintln!("Home directory not found.");
+                process::exit(1);
+            });
+        
+        config_dir.push(".hrt");
+
+        // DirBuilder::new()
+        //     .recursive(true)
+        //     .create(&config_dir)
+        //     .unwrap();
 
         if args.len() == 2 {
-            dir::create_all("/Users/bea/.hrt/", false).unwrap();
+            dir::create_all(config_dir, false).unwrap();
             file::write_all(stored_file, &args[1]).unwrap();
             Hrt::since(&args[1])
         } else {
