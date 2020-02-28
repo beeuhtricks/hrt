@@ -1,6 +1,3 @@
-extern crate hrt;
-extern crate chrono;
-
 use hrt::Hrt;
 use std::env;
 
