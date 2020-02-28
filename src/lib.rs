@@ -8,6 +8,7 @@ use chrono::prelude::*;
 use fs_extra::dir;
 use fs_extra::file;
 use std::fmt;
+use std::fs;
 use std::fs::DirBuilder;
 use std::path::PathBuf;
 use std::process;
@@ -20,27 +21,7 @@ pub struct Hrt {
 
 impl Hrt {
     pub fn new(args: Vec<String>) -> Result<Hrt, &'static str> {
-        let config_dir = dirs::home_dir()
-            .unwrap_or_else(|| {
-                eprintln!("Home directory not found.");
-                process::exit(1);
-            });
-        
-        config_dir.push(".hrt");
-
-        // DirBuilder::new()
-        //     .recursive(true)
-        //     .create(&config_dir)
-        //     .unwrap();
-
-        if args.len() == 2 {
-            dir::create_all(config_dir, false).unwrap();
-            file::write_all(stored_file, &args[1]).unwrap();
-            Hrt::since(&args[1])
-        } else {
-            let date = file::read_to_string(stored_file).unwrap();
-            Hrt::since(&date)
-        }
+        Hrt::since(&args[1])
     }
 
     fn since(start: &str) -> Result<Hrt, &'static str> {
